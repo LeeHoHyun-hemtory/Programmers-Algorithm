@@ -1,0 +1,31 @@
+function solution(sequence, k) {
+  const answer = [];
+  let minLength = Number.MAX_SAFE_INTEGER;
+  const len = sequence.length;
+  let leftIdx = 0;
+  let rightIdx = 0;
+  let sum = sequence[leftIdx];
+
+  while (leftIdx < len) {
+    if (sum === k) {
+      answer.push([leftIdx, rightIdx]);
+
+      minLength = rightIdx - leftIdx;
+
+      sum -= sequence[leftIdx];
+      leftIdx++;
+      rightIdx++;
+      sum += sequence[rightIdx];
+    } else if (sum < k) {
+      rightIdx++;
+      sum += sequence[rightIdx];
+    } else {
+      sum -= sequence[leftIdx];
+      leftIdx++;
+    }
+  }
+
+  return answer.find((arr) => arr[1] - arr[0] === minLength);
+}
+
+console.log(solution([1, 1, 1, 2, 3, 4, 5], 5));
