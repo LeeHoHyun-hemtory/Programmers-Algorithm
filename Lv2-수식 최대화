@@ -1,0 +1,34 @@
+function solution(expression) {
+  let answer = 0;
+  const operandOrder = ["+-*", "+*-", "-+*", "-*+", "*+-", "*-+"];
+  const reg = /[\+\-\*]/g;
+  const nums = expression.split(reg);
+  const operands = expression.match(reg);
+
+  for (let i = 0; i < operandOrder.length; i++) {
+    const numsCopy = [...nums];
+    const operandsCopy = [...operands];
+
+    for (let j = 0; j < 3; j++) {
+      const curOperand = operandOrder[i][j];
+
+      while (operandsCopy.includes(curOperand)) {
+        const operandIdx = operandsCopy.indexOf(curOperand);
+
+        if (operandsCopy[operandIdx] === operandOrder[i][j]) {
+          const result = eval(
+            `${numsCopy[operandIdx]}${operandsCopy[operandIdx]}${
+              numsCopy[operandIdx + 1]
+            }`
+          );
+          numsCopy.splice(operandIdx, 2, result);
+          operandsCopy.splice(operandIdx, 1);
+        }
+      }
+    }
+
+    answer = answer < Math.abs(numsCopy[0]) ? Math.abs(numsCopy[0]) : answer;
+  }
+
+  return answer;
+}
