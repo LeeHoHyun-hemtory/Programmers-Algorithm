@@ -1,0 +1,46 @@
+function solution(targets) {
+  let answer = 0;
+  const len = targets.length;
+
+  targets.sort((a, b) => {
+    if (a[0] === b[0]) {
+      return a[1] - b[1];
+    } else {
+      return a[0] - b[0];
+    }
+  });
+
+  let tail = targets[0][1]; // 맨 처음 미사일 꼬리 부분
+
+  for (let i = 1; i < len; i++) {
+    if (targets[i][0] >= tail) {
+      answer++;
+      tail = targets[i][1];
+    } else {
+      tail = Math.min(targets[i][1], tail);
+    }
+  }
+
+  return ++answer;
+}
+
+console.log(
+  solution([
+    [4, 5],
+    [4, 8],
+    [10, 14],
+    [11, 13],
+    [5, 12],
+    [3, 7],
+    [1, 4],
+  ])
+);
+
+// console.log(
+//   solution([
+//     [0, 4],
+//     [5, 10],
+//     [6, 8],
+//     [8, 9],
+//   ])
+// );
