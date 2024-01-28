@@ -1,0 +1,57 @@
+function solution(plans) {
+  const answer = [];
+  const stack = [];
+  let cur = 0;
+  const plansArr = plans.map((arr) => {
+    const [h, m] = arr[1].split(":");
+    arr[1] = h * 60 + Number(m);
+    arr[2] = Number(arr[1]) + Number(arr[2]);
+
+    return arr;
+  });
+
+  plansArr.sort((a, b) => a[1] - b[1]); // 시작시간으로 정렬
+
+  while (plans.length > cur) {
+    const len = stack.length;
+
+    if (len === 0) {
+      stack.push(plansArr[cur]);
+      cur++;
+    } else {
+      if (stack[len - 1][2] > plansArr[cur][1]) {
+        for (const work of stack) {
+          work[2] = plansArr[cur][2] + (work[2] - plansArr[cur][1]); // 새 작업이 추가될 때 이전 작업 끝나는 시간에 추가
+        }
+        stack.push(plansArr[cur]);
+        cur++;
+      } else {
+        answer.push(stack.pop()[0]);
+      }
+    }
+  }
+
+  return answer.concat(stack.reverse().map((arr) => arr[0]));
+}
+
+console.log(
+  solution([
+    ["aaa", "12:00", "20"],
+    ["bbb", "12:10", "30"],
+    ["ccc", "12:40", "10"],
+  ])
+);
+
+// bbb, ccc, aaa
+
+// console.log(
+//   solution([
+//     ["a", "09:00", "10"],
+//     ["b", "09:10", "10"],
+//     ["c", "09:15", "10"],
+//     ["d", "09:30", "10"],
+//     ["e", "09:35", "10"],
+//   ])
+// );
+
+// a, c, b, e, d
