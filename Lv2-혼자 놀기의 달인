@@ -1,0 +1,25 @@
+function solution(cards) {
+  const cntArr = [];
+
+  for (let i = 0; i < cards.length; i++) {
+    if (cards[i] !== 0) {
+      const curCard = cards[i]; // 현재 상자에 담긴 카드 번호
+      let cnt = 1;
+      let idx = curCard - 1;
+      let temp = 0;
+
+      while (curCard !== cards[idx]) {
+        cnt++;
+        temp = cards[idx] - 1;
+        cards[idx] = 0;
+        idx = temp;
+      }
+
+      cntArr.push(cnt);
+    }
+  }
+
+  cntArr.sort((a, b) => b - a);
+
+  return cntArr[0] * (cntArr[1] ?? 0); // 한번에 다 순회가 됐을 때 0을 곱하게 함
+}
