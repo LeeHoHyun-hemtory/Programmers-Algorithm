@@ -1,0 +1,51 @@
+function solution(p) {
+  if (!p.length) return "";
+
+  let result = "";
+  const stack = [];
+  let u = "";
+  let v = "";
+  let cnt = 0;
+  let idx = 0;
+
+  do {
+    if (p[idx] === "(") {
+      cnt++;
+      stack.push("(");
+    } else if (p[idx] === ")") {
+      cnt--;
+
+      if (stack[stack.length - 1] === "(") {
+        stack.pop();
+      } else {
+        stack.push(")");
+      }
+    }
+
+    idx++;
+  } while (cnt !== 0);
+
+  u = p.slice(0, idx);
+  v = p.slice(idx);
+
+  if (stack.length === 0) {
+    result = u + solution(v);
+  } else {
+    let temp = "";
+
+    for (let i = 1; i < u.length - 1; i++) {
+      if (u[i] === "(") {
+        temp += ")";
+      } else {
+        temp += "(";
+      }
+    }
+
+    result = "(" + solution(v) + ")" + temp;
+  }
+
+  return result;
+}
+
+console.log(solution("()))((()"));
+// ()(())()
