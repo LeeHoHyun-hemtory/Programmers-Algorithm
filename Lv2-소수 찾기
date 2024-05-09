@@ -1,0 +1,47 @@
+function solution(numbers) {
+  let answer = 0;
+  const set = new Set();
+
+  function b(num, result, len) {
+    if (num.length > 0) {
+      if (result.length < len) {
+        for (let i = 0; i < num.length; i++) {
+          const num01 = num.slice(i, i + 1);
+          const num02 = num.slice(0, i) + num.slice(i + 1);
+
+          b(num02, result + num01, len);
+        }
+      } else {
+        check(Number(result));
+        return;
+      }
+    } else {
+      check(Number(num + result));
+      return;
+    }
+  }
+
+  for (let i = 1; i <= numbers.length; i++) {
+    b(numbers, "", i);
+  }
+    
+  function check(num) {
+      if(set.has(num) || num <= 1) {
+          return;
+      }
+      else {
+          set.add(num);
+          const len = Math.sqrt(num);
+          
+          for(let i = 2; i <= len; i++) {
+              if(!(num % i)) {
+                  return;
+              }
+          }
+          
+          answer++;
+      }
+  }
+
+  return answer;
+}
