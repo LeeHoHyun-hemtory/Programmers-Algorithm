@@ -1,0 +1,40 @@
+function solution(topping) {
+  let answer = 0;
+  const left = new Map();
+  const right = new Map();
+  const len = topping.length;
+    
+  for(let i = 0; i < len; i++) {
+    const t = topping[i];
+        
+    if(right.has(t)) {
+      right.set(t, right.get(t) + 1);
+    }
+    else {
+      right.set(t, 1);
+    }
+  }
+    
+  for(let i = 0; i < len; i++) {
+    const t = topping[i];
+      
+    if(!left.has(t)) {
+      left.set(t, 1);
+    }
+        
+        
+    if(right.has(t)) {
+      right.set(t, right.get(t) - 1);
+            
+      if(right.get(t) === 0) {
+        right.delete(t);
+      }
+    }
+        
+    if(left.size === right.size) {
+      answer++;
+    }
+  }
+    
+  return answer;
+}
