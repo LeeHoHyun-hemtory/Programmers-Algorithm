@@ -1,0 +1,23 @@
+function solution(want, number, discount) {
+  let answer = 0;
+  const len = discount.length - 10;
+    
+  for(let i = 0; i <= len; i++) {
+    const slice = discount.slice(i, i + 10);
+    const copy = [...number];
+        
+    slice.forEach(dis => {
+      const idx = want.findIndex(w => w === dis);
+            
+      if(idx !== -1 && copy[idx] > 0) {
+        copy[idx] -= 1;
+      }
+    });
+        
+    if(copy.reduce((acc, n) => acc + n, 0) === 0) {
+      answer++;
+    }
+  }
+    
+  return answer;
+}
