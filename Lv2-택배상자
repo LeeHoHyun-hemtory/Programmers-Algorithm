@@ -1,0 +1,23 @@
+function solution(order) {
+  let answer = 0;
+  const stack = [];
+  const len = order.length;
+  let curIdx = 0;
+
+  for (let i = 1; i <= len; i++) {
+    if (order[curIdx] === i) {
+      answer++;
+      curIdx++;
+    } else {
+      stack.push(i);
+    }
+
+    while (stack[0] && stack[stack.length - 1] === order[curIdx]) {
+      answer++;
+      curIdx++;
+      stack.pop();
+    }
+  }
+
+  return answer;
+}
