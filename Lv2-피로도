@@ -1,0 +1,30 @@
+function solution(k, dungeons) {
+  let answer = 0;
+
+  function check(t, duns, idx) {
+    const cur = duns.slice(idx, idx + 1)[0];
+    const newDuns = duns.slice(0, idx).concat(duns.slice(idx + 1));
+
+    if (t >= cur[0]) {
+      for (let i = 0; i < newDuns.length; i++) {
+        check(t - cur[1], newDuns, i);
+      }
+
+      if (newDuns.length === 0) {
+        answer = dungeons.length;
+      }
+    } else {
+      if (dungeons.length - duns.length > answer) {
+        answer = dungeons.length - duns.length;
+      }
+
+      return;
+    }
+  }
+
+  for (let i = 0; i < dungeons.length; i++) {
+    check(k, dungeons, i);
+  }
+
+  return answer;
+}
