@@ -1,0 +1,30 @@
+function solution(video_len, pos, op_start, op_end, commands) {
+  video_len = video_len.split(":")[0] * 60 + video_len.split(":")[1] * 1;
+  pos = pos.split(":")[0] * 60 + pos.split(":")[1] * 1;
+  op_start = op_start.split(":")[0] * 60 + op_start.split(":")[1] * 1;
+  op_end = op_end.split(":")[0] * 60 + op_end.split(":")[1] * 1;
+
+  if (pos >= op_start && pos <= op_end) {
+    pos = op_end;
+  }
+
+  commands.forEach((command) => {
+    if (command === "prev") {
+      pos = pos - 10 <= 0 ? 0 : pos - 10;
+    } else {
+      pos = pos + 10 >= video_len ? video_len : pos + 10;
+    }
+
+    if (pos >= op_start && pos <= op_end) {
+      pos = op_end;
+    }
+  });
+
+  if (pos >= op_start && pos <= op_end) {
+    pos = op_end;
+  }
+
+  return (
+    `${parseInt(pos / 60)}:`.padStart(3, "0") + `${pos % 60}`.padStart(2, "0")
+  );
+}
