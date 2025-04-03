@@ -1,0 +1,31 @@
+function solution(schedules, timelogs, startday) {
+  const newSchedules = schedules.map((s) => {
+    s += 10;
+
+    if (`${s % 100}`[0] > "5") {
+      s += 100;
+      s -= 60;
+    }
+
+    return s;
+  });
+  const personCnt = schedules.length;
+
+  for (let i = 0; i < 7; i++) {
+    if (startday < 6) {
+      for (let j = 0; j < personCnt; j++) {
+        if (newSchedules[j] < timelogs[j][i]) {
+          timelogs[j][i] = 0;
+        }
+      }
+    }
+
+    startday++;
+
+    if (startday > 7) {
+      startday = 1;
+    }
+  }
+
+  return timelogs.filter((logs) => !logs.includes(0)).length;
+}
